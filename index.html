@@ -42,8 +42,9 @@
 
         document
           .getElementById('signinButton')
-          .addEventListener('click', (evt) => {
+          .addEventListener('click', (e) => {
             document.location.href = login_url
+            console.log('login pressed!')
           })
       } else {
         // we have a code

@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <!-- BEGIN Pre-requisites -->
-    <script
-      type="text/javascript"
-      src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js?ver=1.4.2"
-    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script
       src="https://apis.google.com/js/client:platform.js?onload=start"
       async
@@ -55,10 +52,10 @@
       function signInCallback(authCode) {
         if (authCode) {
           // Hide the sign-in button now that the user is authorized, for example:
-          jQuery('signinButton').css('display', 'none')
+          $('signinButton').css('display', 'none')
 
           // Send the code to the server
-          jQuery.ajax({
+          $.ajax({
             type: 'POST',
             url: 'https://zahmadi.wmdd4950.com/storeauthcode',
             data: authCode,

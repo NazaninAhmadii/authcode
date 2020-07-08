@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html itemscope itemtype="http://schema.org/Article">
   <head>
     <meta charset="UTF-8" />
     <!-- BEGIN Pre-requisites -->
@@ -13,27 +13,6 @@
       defer
     ></script>
     <!-- END Pre-requisites -->
-
-    <script defer>
-      function start() {
-        gapi.load('auth2', function () {
-          auth2 = gapi.auth2.init({
-            client_id:
-              '563724994731-iet2ujk56l5vp1v3kg7tea54ilq35r8g.apps.googleusercontent.com',
-            // Scopes to request in addition to 'profile' and 'email'
-            //scope: 'additional_scope'
-          })
-        })
-      }
-      $('#signinButton').click(() => {
-        console.log('sign in btn Clicked!')
-        // signInCallback defined in step 6.
-        auth2.grantOfflineAccess().then((resp) => {
-          var authCode = resp['code']
-          console.log(authCode)
-        })
-      })
-    </script>
     <title>Auth Code</title>
 
     <style>
@@ -47,5 +26,30 @@
     <div>Welcome to Authentication Code Project</div>
     <button id="signinButton">Sign in with Google</button>
     <div id="token"></div>
+
+    <script>
+      function start() {
+        gapi.load('auth2', function () {
+          auth2 = gapi.auth2.init({
+            client_id:
+              '563724994731-iet2ujk56l5vp1v3kg7tea54ilq35r8g.apps.googleusercontent.com',
+            // Scopes to request in addition to 'profile' and 'email'
+            //scope: 'additional_scope'
+          })
+        })
+      }
+      function loginToGoogle() {
+        console.log('sign in btn Clicked!')
+        // signInCallback defined in step 6.
+        auth2.grantOfflineAccess().then((resp) => {
+          var authCode = resp['code']
+          console.log(authCode)
+        })
+      }
+
+      document
+        .getElementById('signinButton')
+        .addEventListener('click', loginToGoogle)
+    </script>
   </body>
 </html>

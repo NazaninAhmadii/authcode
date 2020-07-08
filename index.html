@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <!-- BEGIN Pre-requisites -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script
+      src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
+      defer
+    ></script>
     <script
       src="https://apis.google.com/js/client:platform.js?onload=start"
       async
@@ -11,7 +14,7 @@
     ></script>
     <!-- END Pre-requisites -->
 
-    <script>
+    <script defer>
       function start() {
         gapi.load('auth2', function () {
           auth2 = gapi.auth2.init({
@@ -23,6 +26,7 @@
         })
       }
       $('#signinButton').click(() => {
+        console.log('sign in btn Clicked!')
         // signInCallback defined in step 6.
         auth2.grantOfflineAccess().then((resp) => {
           var authCode = resp['code']

@@ -22,11 +22,10 @@
           })
         })
       }
-      $('#signinButton').click(function () {
-        start()
+      $('#signinButton').click(() => {
         // signInCallback defined in step 6.
         auth2.grantOfflineAccess().then((resp) => {
-          var authCode = resp.code
+          var authCode = resp['code']
           console.log(authCode)
         })
       })
@@ -34,12 +33,8 @@
     <title>Auth Code</title>
 
     <style>
-      #streets {
-        float: left;
-      }
-
-      #map {
-        float: right;
+      button {
+        margin: 20px;
       }
     </style>
   </head>
@@ -47,7 +42,6 @@
   <body>
     <div>Welcome to Authentication Code Project</div>
     <button id="signinButton">Sign in with Google</button>
-    <section id="streets"></section>
-    <section id="map"></section>
+    <div id="token"></div>
   </body>
 </html>

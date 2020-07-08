@@ -55,7 +55,7 @@
       function signInCallback(authCode) {
         if (authCode) {
           // Hide the sign-in button now that the user is authorized, for example:
-          jQuery('signinButton').style.display = 'none'
+          jQuery('signinButton').css('display', 'none')
 
           // Send the code to the server
           jQuery.ajax({

@@ -1,51 +1,26 @@
-<!DOCTYPE html>
-<html itemscope itemtype="http://schema.org/Article">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <!-- BEGIN Pre-requisites -->
-    <script
-      src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
-      defer
-    ></script>
-    <script
-      src="https://apis.google.com/js/client:platform.js?onload=start"
-      async
-      defer
-    ></script>
-    <!-- END Pre-requisites -->
-    <title>Auth Code</title>
-
-    <style>
-      button {
-        margin: 20px;
-      }
-    </style>
+    <style></style>
   </head>
-
   <body>
-    <div>Welcome to Authentication Code Project</div>
-    <button id="signinButton">Sign in with Google</button>
-    <div id="token"></div>
-
     <script>
       // if page doesn't include auth code, we need to authroize
       if (!document.location.href.includes('code')) {
         // this will redirect the page to facebook, then back
-        let clientid =
-          '563724994731-iet2ujk56l5vp1v3kg7tea54ilq35r8g.apps.googleusercontent.com'
         var login_url = [
-          `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientid}`,
+          `https://accounts.google.com/o/oauth2/v2/auth?client_id=563724994731-iet2ujk56l5vp1v3kg7tea54ilq35r8g.apps.googleusercontent.com`,
           `redirect_uri=${document.location.href}`,
           `response_type=code`,
           `scope=email profile openid`,
         ].join('&')
 
-        document
-          .getElementById('signinButton')
-          .addEventListener('click', (e) => {
-            document.location.href = login_url
-            console.log('login pressed!')
-          })
+        var login_button = document.createElement('button')
+        login_button.innerHTML = 'Login to Google'
+        login_button.addEventListener('click', (evt) => {
+          document.location.href = login_url
+        })
+
+        document.body.append(login_button)
       } else {
         // we have a code
         console.log('got a code!!')
@@ -61,13 +36,15 @@
             if (respond.status == 200) {
               return respond.json()
             } else {
-              throw "Can't get the token"
+              throw 'Cannot get token'
             }
           })
           .then((json) => {
             console.log(json)
             if (json.access_token) {
-              document.getElementById('token').innerHTML = json.access_token
+              tokenNode = document.createElement('div')
+              tokenNode.innerHTML = json.access_token
+              document.body.append(tokenNode)
             } else {
               // we probably have an error
             }

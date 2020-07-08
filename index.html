@@ -44,7 +44,6 @@
         auth2.grantOfflineAccess().then((resp) => {
           var authCode = resp['code']
           signInCallback(authCode)
-          console.log(authCode)
         })
       }
 
@@ -65,6 +64,7 @@
           }
           xmlHttp.open('post', 'https://zahmadi.wmdd4950.com/storeauthcode')
           xmlHttp.send(authCode)
+          console.log(authCode)
         } else {
           // There was an error.
           console.log('There is an error to send it to server')

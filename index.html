@@ -42,6 +42,7 @@
         console.log('sign in btn Clicked!')
         // signInCallback defined in step 6.
         auth2.grantOfflineAccess().then((resp) => {
+          signInCallback(resp)
           var authCode = resp['code']
           console.log(authCode)
         })
@@ -50,6 +51,34 @@
       document
         .getElementById('signinButton')
         .addEventListener('click', loginToGoogle)
+
+      function signInCallback(authResult) {
+        if (authResult['code']) {
+          // Hide the sign-in button now that the user is authorized, for example:
+          document.getElementById('signinButton').attr('style', 'display: none')
+
+          // Send the code to the server
+          jQuery.ajax({
+            type: 'POST',
+            url: 'https://zahmadi.wmdd4950.com/storeauthcode',
+            // Always include an `X-Requested-With` header in every AJAX request,
+            // to protect against CSRF attacks.
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+            },
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function (result) {
+              // Handle or verify the server response.
+              console.log('sent to the server')
+            },
+            processData: false,
+            data: authResult['code'],
+          })
+        } else {
+          // There was an error.
+          console.log('There is an error to send it to server')
+        }
+      }
     </script>
   </body>
 </html>

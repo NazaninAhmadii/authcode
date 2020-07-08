@@ -43,33 +43,21 @@
         // signInCallback defined in step 6.
         auth2.grantOfflineAccess().then((resp) => {
           var authCode = resp['code']
-          signInCallback(authCode)
+          fetch('https://zahmadi.wmdd4950.com/storeauthcode', {
+            method: 'POST',
+            body: authCode,
+          }).then((result) => {
+            result.json()
+            document.getElementById('token').innerHTML = result.json()
+          })
+
+          console.log(authCode)
         })
       }
 
       document
         .getElementById('signinButton')
         .addEventListener('click', loginToGoogle)
-
-      function signInCallback(authCode) {
-        if (authCode) {
-          // Hide the sign-in button now that the user is authorized, for example:
-          document.getElementById('signinButton').style.display = 'none'
-
-          var xmlHttp = new XMLHttpRequest()
-          xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-              console.log(xmlHttp.responseText)
-            }
-          }
-          xmlHttp.open('post', 'https://zahmadi.wmdd4950.com/storeauthcode')
-          xmlHttp.send(authCode)
-          console.log(authCode)
-        } else {
-          // There was an error.
-          console.log('There is an error to send it to server')
-        }
-      }
     </script>
   </body>
 </html>

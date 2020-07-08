@@ -28,36 +28,50 @@
     <div id="token"></div>
 
     <script>
-      function start() {
-        gapi.load('auth2', function () {
-          auth2 = gapi.auth2.init({
-            client_id:
-              '563724994731-iet2ujk56l5vp1v3kg7tea54ilq35r8g.apps.googleusercontent.com',
-            // Scopes to request in addition to 'profile' and 'email'
-            //scope: 'additional_scope'
-          })
-        })
-      }
-      function loginToGoogle() {
-        console.log('sign in btn Clicked!')
-        // signInCallback defined in step 6.
-        auth2.grantOfflineAccess().then((resp) => {
-          var authCode = resp['code']
-          fetch('https://zahmadi.wmdd4950.com/storeauthcode', {
-            method: 'POST',
-            body: authCode,
-          }).then((result) => {
-            result.json()
-            document.getElementById('token').innerHTML = result.json()
-          })
+      // if page doesn't include auth code, we need to authroize
+      if (!document.location.href.includes('code')) {
+        // this will redirect the page to facebook, then back
+        let clientid =
+          '563724994731-iet2ujk56l5vp1v3kg7tea54ilq35r8g.apps.googleusercontent.com'
+        var login_url = [
+          `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientid}`,
+          `redirect_uri=${document.location.href}`,
+          `response_type=code`,
+          `scope=email profile openid`,
+        ].join('&')
 
-          console.log(authCode)
-        })
-      }
+        document
+          .getElementById('signinButton')
+          .addEventListener('click', (evt) => {
+            document.location.href = login_url
+          })
+      } else {
+        // we have a code
+        console.log('got a code!!')
 
-      document
-        .getElementById('signinButton')
-        .addEventListener('click', loginToGoogle)
+        // Retrieve access token with custom api
+        var params = new URLSearchParams(location.search)
+        var code = params.get('code')
+
+        //document.body.append(code);
+
+        fetch(`https://zahmadi.wmdd4950.com/cgi-bin/code.sh?${code}`)
+          .then((respond) => {
+            if (respond.status == 200) {
+              return respond.json()
+            } else {
+              throw "Can't get the token"
+            }
+          })
+          .then((json) => {
+            console.log(json)
+            if (json.access_token) {
+              document.getElementById('token').innerHTML = json.access_token
+            } else {
+              // we probably have an error
+            }
+          })
+      }
     </script>
   </body>
 </html>
